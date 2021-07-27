@@ -32,7 +32,7 @@ const typeDefs = gql`
   type Query {
     meetings: [Meeting!]!
     meeting(id: ID!): Meeting!
-    getProfile(id: ID!): User!
+    getProfile: User!
   }
 
   type Mutation {
