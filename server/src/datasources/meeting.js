@@ -15,14 +15,13 @@ class MeetingDataSource {
   };
 
   deleteMeeting = async (owner, meetingId) => {
-    const remove = await meetingModel.findOneAndDelete(
-      {
-        $and: [{ _id: meetingId }, { owner }],
-      },
-      { new: true }
-    );
+    const remove = await meetingModel.deleteOne({
+      $and: [{ _id: meetingId }, { owner }],
+    });
 
-    return remove;
+    return {
+      message: 'Deleted Successfully',
+    };
   };
 
   getMeeting = async (meetingId) => {
@@ -35,6 +34,12 @@ class MeetingDataSource {
     }
 
     return { data: find };
+  };
+
+  getMeetings = async (owner) => {
+    const find = await meetingModel.find({ owner });
+
+    return find;
   };
 }
 

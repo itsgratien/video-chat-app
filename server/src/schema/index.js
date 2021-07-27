@@ -25,8 +25,8 @@ const typeDefs = gql`
     message: String
   }
 
-  type DeleteMeetingResponse {
-    message: String
+  type DeleteMeetingResponse{
+    message: String!
   }
 
   type Query {
@@ -38,6 +38,7 @@ const typeDefs = gql`
   type Mutation {
     login(email: String!): LoginResponse!
     addMeeting(name: String!): AddMeetingResponse!
+    deleteMeeting(id: ID!): DeleteMeetingResponse!
   }
 `;
 
