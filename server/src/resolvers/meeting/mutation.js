@@ -21,17 +21,36 @@ class MeetingMutation {
 
       const find = await dataSources.meetingAPI.getMeeting(args.id);
 
-      if(find.error){
+      if (find.error) {
         return new UserInputError(find.error);
       }
 
       const res = await dataSources.meetingAPI.deleteMeeting(user._id, args.id);
 
-      console.log('res', res);
-
       return res;
     } catch (error) {
-      console.log('error', error);
+      throw new ApolloError(
+        'Unable to delete meeting due to internal server error'
+      );
+    }
+  };
+
+  startMeeting = async (_, args, context) => {
+    try {
+      const { dataSources } = context;
+
+      const find = await dataSources.meetingAPI.getMeeting(args.id);
+
+      if (find.error) {
+        return new UserInputError(find.error);
+      }
+
+      if (Number(find.data.passCode) !== Number(args.passCode)) {
+        return new UserInputError('Unable to start meeting');
+      }
+
+      return find.data;
+    } catch (error) {
       throw new ApolloError(
         'Unable to delete meeting due to internal server error'
       );

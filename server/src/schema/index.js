@@ -11,6 +11,7 @@ const typeDefs = gql`
     name: String!
     meetingLink: String!
     owner: String!
+    passCode: String!
     createdAt: String
     updatedAt: String
   }
@@ -25,7 +26,7 @@ const typeDefs = gql`
     message: String
   }
 
-  type DeleteMeetingResponse{
+  type DeleteMeetingResponse {
     message: String!
   }
 
@@ -39,6 +40,7 @@ const typeDefs = gql`
     login(email: String!): LoginResponse!
     addMeeting(name: String!): AddMeetingResponse!
     deleteMeeting(id: ID!): DeleteMeetingResponse!
+    startMeeting(id: ID!, passCode: String!): Meeting!
   }
 `;
 

@@ -14,6 +14,10 @@ const Meeting = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       required: true,
     },
+    passCode: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

@@ -6,7 +6,12 @@ class MeetingDataSource {
   addMeeting = async (owner, { name }) => {
     const meetingLink = `${environment.frontendUrl}/${Math.random()}`;
 
-    const add = await meetingModel.create({ name, owner, meetingLink });
+    const add = await meetingModel.create({
+      name,
+      owner,
+      meetingLink,
+      passCode: Math.random() * 1000,
+    });
 
     return {
       data: add,
@@ -15,7 +20,7 @@ class MeetingDataSource {
   };
 
   deleteMeeting = async (owner, meetingId) => {
-    const remove = await meetingModel.deleteOne({
+    await meetingModel.deleteOne({
       $and: [{ _id: meetingId }, { owner }],
     });
 
