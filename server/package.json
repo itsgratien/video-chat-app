@@ -5,13 +5,14 @@
   "author": "gratien",
   "license": "MIT",
   "scripts": {
-    "start:dev":"nodemon server.js",
-    "start":"node server.js"
+    "start:dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "dependencies": {
     "apollo-server": "^3.0.2",
     "dotenv": "^10.0.0",
-    "graphql": "^15.5.1"
+    "graphql": "^15.5.1",
+    "mongoose": "^5.13.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"

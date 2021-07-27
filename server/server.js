@@ -1,13 +1,17 @@
-const { ApolloServer, gql } = require('apollo-server');
+const { ApolloServer } = require('apollo-server');
 
 const { config } = require('dotenv');
 
-config();
+const typeDefs = require('./src/schema');
 
-const typeDefs = gql``;
+const { database } = require('./src/config');
+
+config();
 
 const server = new ApolloServer({ typeDefs });
 
-server
-  .listen()
-  .then((value) => console.log(`Server is listening on ${value.url}`));
+server.listen().then((value) => {
+  database();
+
+  console.log(`Server is listening on ${value.url}`);
+});
