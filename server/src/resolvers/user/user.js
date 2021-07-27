@@ -1,3 +1,4 @@
+const { ApolloError } = require('apollo-server');
 class User {
   getProfile = async (_, value, { dataSources }) => {
     try {
@@ -9,7 +10,7 @@ class User {
 
       return find;
     } catch (error) {
-      throw new Error('Unable to fetch data due to an internal server error');
+      throw new ApolloError('Unable to fetch data due to an internal server error');
     }
   };
 }
