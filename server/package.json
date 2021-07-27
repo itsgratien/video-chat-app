@@ -1,0 +1,19 @@
+{
+  "name": "video-chat-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "gratien",
+  "license": "MIT",
+  "scripts": {
+    "start:dev":"nodemon server.js",
+    "start":"node server.js"
+  },
+  "dependencies": {
+    "apollo-server": "^3.0.2",
+    "dotenv": "^10.0.0",
+    "graphql": "^15.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
