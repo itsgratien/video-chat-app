@@ -8,6 +8,7 @@ const environment = {
   apolloGraphId: process.env.APOLLO_GRAPH_ID,
   apolloGraphVariant: process.env.APOLLO_GRAPH_VARIANT,
   apolloSchemaReporting: process.env.APOLLO_SCHEMA_REPORTING,
+  frontendUrl: process.env.FRONTEND_URL,
 };
 
 module.exports = environment;

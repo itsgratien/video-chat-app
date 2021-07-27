@@ -9,7 +9,7 @@ const typeDefs = gql`
   type Meeting {
     _id: ID
     name: String!
-    videoLink: String!
+    meetingLink: String!
     owner: String!
     createdAt: String
     updatedAt: String
@@ -37,6 +37,7 @@ const typeDefs = gql`
 
   type Mutation {
     login(email: String!): LoginResponse!
+    addMeeting(name: String!): AddMeetingResponse!
   }
 `;
 

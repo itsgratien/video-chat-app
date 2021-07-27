@@ -17,6 +17,7 @@ const server = new ApolloServer({
   resolvers,
   dataSources: () => ({
     userAPI: dataSources.userDataSource,
+    meetingAPI: dataSources.meetingDataSource,
   }),
   context: async ({ req }) => {
     const auth = req.headers && req.headers.authorization;
