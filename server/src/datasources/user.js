@@ -9,6 +9,19 @@ class UserDataSource {
       email: find.email,
     };
   };
+
+  login = async (email) => {
+    const find = await userModel.findOneAndUpdate(
+      { email },
+      { email },
+      { upsert: true, new: true }
+    );
+
+    return {
+      _id: find._id,
+      email: find.email,
+    };
+  };
 }
 
-module.exports = new UserDataSource;
+module.exports = new UserDataSource();

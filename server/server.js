@@ -18,6 +18,21 @@ const server = new ApolloServer({
   dataSources: () => ({
     userAPI: dataSources.userDataSource,
   }),
+  context: async ({ req }) => {
+    const auth = req.headers && req.headers.authorization;
+
+    if (!auth) return { user: null };
+
+    const userId = Buffer.from(auth, 'base64').toString('ascii');
+
+    const find = await dataSources.userDataSource.getProfile(userId);
+
+    if (!find) return { user: null };
+
+    return {
+      user: find,
+    };
+  },
 });
 
 server.listen().then((value) => {

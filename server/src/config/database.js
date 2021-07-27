@@ -11,6 +11,7 @@ module.exports = async () => {
     await mongoose.connect(environment.databaseUrl, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useFindAndModify: false
     });
   } catch (error) {
     throw error;

@@ -1,3 +1,8 @@
-const { user } = require('./user');
+const { userMutation } = require('./mutation');
 
-module.exports = user;
+const { userQuery } = require('./query');
+
+module.exports = {
+  userMutation,
+  userQuery,
+};

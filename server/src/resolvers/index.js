@@ -2,7 +2,9 @@ const user = require('./user');
 
 module.exports = {
   Query: {
-    ...user,
+    ...user.userQuery,
   },
-    Mutation: {},
+  Mutation: {
+    ...user.userMutation,
+  },
 };
