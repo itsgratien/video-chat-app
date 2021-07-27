@@ -30,8 +30,8 @@ const typeDefs = gql`
   }
 
   type Query {
-    meetings: [Meeting!]!
-    meeting(id: ID!): Meeting!
+    getMeetings: [Meeting!]!
+    getMeeting(id: ID!): Meeting!
     getProfile: User!
   }
 
