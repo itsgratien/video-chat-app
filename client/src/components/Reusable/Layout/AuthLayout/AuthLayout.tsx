@@ -1,17 +1,47 @@
 import React, { FC } from 'react';
 import './AuthLayout.scss';
 import { Redirect } from 'react-router-dom';
+import { useQuery, gql } from '@apollo/client';
 import Layout, { IsAuth } from '../Layout';
-import { Route } from '../../../../utils';
+import { Route, AppEnum } from '../../../../utils';
 import { Button, ButtonBackground, OnlineUsers } from '../..';
+import { getCurrentUser, User } from '../../../../cache';
 
+const GET_CURRENT_USER = gql`
+  query GetCurrentUser {
+    getProfile {
+      _id
+      email
+    }
+  }
+`;
+
+interface GetProfileResponse {
+  getProfile: User | null;
+}
 const AuthLayout: FC = (props) => {
   const { children } = props;
+
+  const { loading } = useQuery<GetProfileResponse>(GET_CURRENT_USER, {
+    onCompleted: (res) => {
+      if (res.getProfile) {
+        localStorage.setItem(
+          AppEnum.CurrentUser,
+          JSON.stringify(res.getProfile)
+        );
+
+        getCurrentUser(res.getProfile);
+      }
+    },
+  });
 
   return (
     <Layout>
       <IsAuth.Consumer>
         {(value) => {
+          if (loading) {
+            return <span>Loading ...</span>;
+          }
           if (!value.isLoggedIn) {
             return <Redirect to={Route.Login} />;
           }

@@ -4,4 +4,6 @@ export const environment = {
 
 export enum AppEnum {
   Token = 'video_auth_token',
+
+  CurrentUser = 'currentUser'
 }
