@@ -1,0 +1,15 @@
+.authLayout {
+  .children {
+    padding-top: 100px;
+  }
+  .footer {
+    padding: 0 27px;
+    position: fixed;
+    .logoutSection {
+      border-radius: 10px;
+      border: 1px solid #03071e;
+      margin-bottom: 18px;
+      padding: 17px 0;
+    }
+  }
+}

@@ -1,0 +1,34 @@
+$black: #03071e;
+$bodyColor: #f6f6f6;
+
+.onlineUsers {
+  padding-top: 31px;
+  padding: 11px 0 14px 0;
+  overflow: hidden;
+  background-color: $bodyColor;
+  ul {
+    margin: auto;
+    width: 380px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 0px 0 50px;
+  }
+  li {
+    margin: 10px;
+    cursor: pointer;
+    .item {
+      width: 50px;
+      height: 50px;
+      border-radius: 100%;
+      background-color: $black;
+      font-size: 30px;
+    }
+    .online {
+      width: 15px;
+      height: 15px;
+      border-radius: 100%;
+      border: 1px solid #36ff9f;
+      background-color: white;
+    }
+  }
+}

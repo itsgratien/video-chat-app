@@ -1,5 +1,4 @@
 import React, { FC, createContext } from 'react';
-import './Layout.scss';
 import { useQuery, gql } from '@apollo/client';
 
 export const IsAuth = createContext<{ isLoggedIn?: boolean }>({});
