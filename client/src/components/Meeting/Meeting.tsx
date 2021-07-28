@@ -7,7 +7,7 @@ import { AuthLayout as Layout } from '../Reusable';
 import { Route } from '../../utils';
 import { MeetingItem } from './MeetingItem';
 
-const MEETING = gql`
+export const MEETING = gql`
   fragment MeetingItem on Meeting {
     _id
     name
