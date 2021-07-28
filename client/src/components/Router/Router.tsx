@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Route as Path } from '../../utils';
 import { Login } from '../Login';
 import { PageNotFound } from '../PageNotFound';
-import { Dashboard } from '../Dashboard';
+import { Dashboard, Meeting } from '../Dashboard';
 
 const Router = () => {
   const appRouter = [
@@ -18,6 +18,10 @@ const Router = () => {
     {
       component: <Dashboard />,
       path: Path.Dashboard,
+    },
+    {
+      component: <Meeting />,
+      path: Path.Meeting,
     },
   ];
   return (

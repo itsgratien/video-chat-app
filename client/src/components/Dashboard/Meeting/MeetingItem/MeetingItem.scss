@@ -1,0 +1,16 @@
+.meetingItem {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 5px;
+  &:first-child {
+    margin-top: 0;
+  }
+  button {
+    margin: 0 10px;
+    width: 35px;
+    height: 35px;
+    &:last-child {
+      border-radius: 10px;
+    }
+  }
+}

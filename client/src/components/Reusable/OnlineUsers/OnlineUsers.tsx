@@ -6,7 +6,7 @@ const OnlineUsers = () => {
   const [hovered, setHovered] = useState<boolean>(false);
 
   return (
-    <div className='fixed onlineUsers w-full top-0'>
+    <div className='fixed onlineUsers w-full top-0 bg-primaryColor'>
       <ul
         className='flex items-center justify-center'
         onMouseLeave={() => setHovered(false)}
@@ -16,13 +16,13 @@ const OnlineUsers = () => {
         ) : (
           <>
             <li className='relative' onMouseOver={() => setHovered(true)}>
-              <div className='item flex items-center justify-center text-white'>
+              <div className='item flex items-center justify-center text-white bg-secondaryColor'>
                 g
               </div>
               <div className='online absolute bottom-0 right-0'></div>
             </li>
             <li className='relative'>
-              <div className='item flex items-center justify-center text-white'>
+              <div className='item flex items-center justify-center text-white bg-secondaryColor'>
                 g
               </div>
               <div className='online absolute bottom-0 right-0'></div>

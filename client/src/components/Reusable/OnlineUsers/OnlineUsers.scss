@@ -1,11 +1,7 @@
-$black: #03071e;
-$bodyColor: #f6f6f6;
-
 .onlineUsers {
   padding-top: 31px;
   padding: 11px 0 14px 0;
   overflow: hidden;
-  background-color: $bodyColor;
   z-index: 100;
   ul {
     margin: auto;
@@ -21,7 +17,6 @@ $bodyColor: #f6f6f6;
       width: 50px;
       height: 50px;
       border-radius: 100%;
-      background-color: $black;
       font-size: 30px;
     }
     .online {

@@ -17,7 +17,7 @@ const UserDetail = (props: Props) => {
       onMouseLeave={() => setHovered(true)}
     >
       <div className='detail flex items-center'>
-        <div className='handle flex items-center justify-center font-bold text-white'>
+        <div className='handle flex items-center justify-center font-bold text-white bg-secondaryColor'>
           g
         </div>
         <div className='font-bold ml-2'>{email}</div>
@@ -25,7 +25,7 @@ const UserDetail = (props: Props) => {
       <div className='callUser'>
         <button
           type='button'
-          className='outline-none focus:outline-none flex items-center justify-center'
+          className='outline-none focus:outline-none flex items-center justify-center border border-secondaryColor'
         >
           <Call />
         </button>

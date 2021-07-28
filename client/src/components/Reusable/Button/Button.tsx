@@ -14,11 +14,21 @@ interface Props {
   showBlackBorder?: boolean;
   bold?: boolean;
   disabled?: boolean;
+  onClick?: () => void;
+  borderRadius?: '5px' | '10px';
 }
 
 const Button = (props: Props) => {
-  const { type, name, backgroundColor, icon, showBlackBorder, bold, disabled } =
-    props;
+  const {
+    type,
+    name,
+    backgroundColor,
+    icon,
+    showBlackBorder,
+    bold,
+    disabled,
+    borderRadius,
+  } = props;
 
   return (
     <button
@@ -27,7 +37,7 @@ const Button = (props: Props) => {
         bold ? 'font-bold' : ''
       }`}
       style={{
-        borderRadius: '10px',
+        borderRadius: borderRadius || '10px',
         backgroundColor,
         height: '67px',
         border: showBlackBorder ? `1px solid ${ButtonBackground.Black}` : '',
