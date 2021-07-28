@@ -1,14 +1,18 @@
+$bodyColor: #f6f6f6;
 .authLayout {
   .children {
     padding-top: 100px;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
   .footer {
-    padding: 0 27px;
+    padding: 10px 37px;
     position: fixed;
+    background: $bodyColor;
     .logoutSection {
       border-radius: 10px;
       border: 1px solid #03071e;
-      margin-bottom: 18px;
       padding: 17px 0;
     }
   }

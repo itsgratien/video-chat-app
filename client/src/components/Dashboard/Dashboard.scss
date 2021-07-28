@@ -1,0 +1,18 @@
+$bodyColor: #03071e;
+
+.dashboard {
+  width: 350px;
+  padding-top: 150px;
+  .viewMeeting {
+    button {
+      border-bottom: 1px solid $bodyColor;
+      font-size: 15px;
+      padding: 9px 20px;
+    }
+  }
+  .scheduleMeeting {
+    width: 100%;
+    padding: 0 50px;
+    margin-top: 51px;
+  }
+}

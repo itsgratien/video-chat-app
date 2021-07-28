@@ -17,7 +17,7 @@ const AuthLayout: FC = (props) => {
           }
 
           return (
-            <div className='authLayout relative'>
+            <div className='authLayout relative flex flex-col min-h-screen'>
               <OnlineUsers />
               <div className='children'>{children}</div>
               <div className='footer fixed w-full relative bottom-0'>
