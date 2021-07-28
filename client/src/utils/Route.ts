@@ -1,5 +1,7 @@
 export enum Route{
-    Login = '/Login',
+    Login = '/login',
 
-    Home = '/'
+    Home = '/',
+
+    Dashboard = '/dashboard'
 }

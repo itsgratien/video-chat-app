@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Route as Path } from '../../utils';
 import { Login } from '../Login';
 import { PageNotFound } from '../PageNotFound';
+import { Dashboard } from '../Dashboard';
 
 const Router = () => {
   const appRouter = [
@@ -13,6 +14,10 @@ const Router = () => {
     {
       component: <Login />,
       path: Path.Home,
+    },
+    {
+      component: <Dashboard />,
+      path: Path.Dashboard,
     },
   ];
   return (
