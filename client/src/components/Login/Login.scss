@@ -1,0 +1,27 @@
+$black: #03071e;
+
+.login {
+  background: #f6f6f6;
+  form {
+    width: 291px;
+    .formGroup {
+      margin-bottom: 30px;
+    }
+    input,
+    button {
+      width: 100%;
+      border-radius: 10px;
+      height: 67px;
+    }
+    input {
+      background: none;
+      border: 1px solid $black;
+      padding-left: 30px;
+    }
+    button {
+      background-color: $black;
+      color: white;
+      text-align: center;
+    }
+  }
+}
