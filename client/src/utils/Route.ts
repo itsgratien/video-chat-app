@@ -5,5 +5,7 @@ export enum Route{
 
     Dashboard = '/dashboard',
 
-    Meeting = '/meetings'
+    Meeting = '/meetings',
+
+    NewMeeting = '/meeting/new'
 }

@@ -27,6 +27,8 @@ const Dashboard = () => {
 
   const handleViewMeeting = () => history.push(Route.Meeting);
 
+  const handleNewMeeting = () => history.push(Route.NewMeeting);
+
   return (
     <Layout>
       <div className='container mx-auto dashboard relative'>
@@ -53,6 +55,7 @@ const Dashboard = () => {
               showBlackBorder
               icon={<PaperPlane />}
               borderRadius='5px'
+              onClick={handleNewMeeting}
             />
           </div>
         </div>

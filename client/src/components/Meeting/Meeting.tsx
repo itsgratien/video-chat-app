@@ -3,8 +3,8 @@ import './Meeting.scss';
 import { useQuery, gql } from '@apollo/client';
 import { BagAdd } from 'react-ionicons';
 import { useHistory } from 'react-router-dom';
-import { AuthLayout as Layout } from '../../Reusable';
-import { Route } from '../../../utils';
+import { AuthLayout as Layout } from '../Reusable';
+import { Route } from '../../utils';
 import { MeetingItem } from './MeetingItem';
 
 const MEETING = gql`
@@ -48,7 +48,7 @@ const Meeting = () => {
 
   const history = useHistory();
 
-  const handleViewMeeting = () => history.push(Route.Meeting);
+  const handleViewMeeting = () => history.push(Route.NewMeeting);
 
   return (
     <Layout>

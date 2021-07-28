@@ -1,0 +1,18 @@
+.newMeeting {
+  width: 400px;
+  margin-top: 100px;
+  .back {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    background-color: #03071e12;
+  }
+  .formGroup {
+    margin-bottom: 32px;
+  }
+  input {
+    border-radius: 5px;
+    height: 59px;
+    padding-left: 30px;
+  }
+}

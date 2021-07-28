@@ -28,6 +28,7 @@ const Button = (props: Props) => {
     bold,
     disabled,
     borderRadius,
+    onClick,
   } = props;
 
   return (
@@ -47,6 +48,7 @@ const Button = (props: Props) => {
             : ButtonBackground.Black,
       }}
       disabled={disabled}
+      onClick={onClick}
     >
       {icon && (
         <>
