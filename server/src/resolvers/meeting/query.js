@@ -1,4 +1,4 @@
-const { ApolloError, UserInputError } = require('apollo-server');
+const { ApolloError, UserInputError } = require('apollo-server-express');
 
 class MeetingQuery {
   getMeeting = async (_, args, context) => {

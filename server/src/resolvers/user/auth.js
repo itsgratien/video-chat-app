@@ -1,4 +1,4 @@
-const { AuthenticationError } = require('apollo-server');
+const { AuthenticationError } = require('apollo-server-express');
 
 exports.isAuth = (next) => (root, args, context) => {
   if (!context.user) {

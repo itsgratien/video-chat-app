@@ -1,4 +1,4 @@
-const { ApolloError, ValidationError } = require('apollo-server');
+const { ApolloError, ValidationError } = require('apollo-server-express');
 
 const { validate } = require('isemail');
 
