@@ -32,6 +32,7 @@ const DELETE_MEETING = gql`
   mutation DeleteMeeting($id: ID!) {
     deleteMeeting(id: $id) {
       message
+      meetingId
     }
   }
 `;
@@ -61,6 +62,7 @@ export interface MeetingResponse {
 interface DeleteMeetingResponse {
   deleteMeeting: {
     message: string;
+    meetingId: string;
   } | null;
 }
 
@@ -97,10 +99,21 @@ const Meeting = () => {
   );
 
   useEffect(() => {
-    if (data && data.getMeetings && !deleteResponse && !newMeetingResponse) {
+    if (data && data.getMeetings) {
       setItems(data.getMeetings);
     }
-  }, [data, deleteResponse, newMeetingResponse]);
+  }, [data]);
+
+  useEffect(() => {
+    if (deleteResponse && deleteResponse.deleteMeeting) {
+      const filter = items.filter(
+        (item) => item._id !== deleteResponse.deleteMeeting?.meetingId
+      );
+
+      setItems(filter);
+    }
+    // eslint-disable-next-line
+  }, [deleteResponse]);
 
   return (
     <Layout>

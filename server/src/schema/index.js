@@ -29,6 +29,7 @@ const typeDefs = gql`
 
   type DeleteMeetingResponse {
     message: String!
+    meetingId: ID!
   }
 
   type Query {

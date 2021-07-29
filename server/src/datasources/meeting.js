@@ -26,6 +26,7 @@ class MeetingDataSource {
 
     return {
       message: 'Deleted Successfully',
+      meetingId
     };
   };
 
