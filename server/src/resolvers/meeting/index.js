@@ -2,6 +2,8 @@ const meetingMutation = require('./mutation');
 
 const meetingQuery = require('./query');
 
+const meetingSubscription = require('./subscription');
+
 const { isAuth } = require('../user');
 
 module.exports = {
@@ -13,4 +15,5 @@ module.exports = {
     ...meetingQuery,
     getMeeting: isAuth(meetingQuery.getMeeting),
   },
+  meetingSubscription,
 };

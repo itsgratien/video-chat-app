@@ -43,6 +43,10 @@ const typeDefs = gql`
     deleteMeeting(id: ID!): DeleteMeetingResponse!
     startMeeting(id: ID!, passCode: String!): Meeting!
   }
+
+  type Subscription {
+    meetingCreated: Meeting!
+  }
 `;
 
 module.exports = typeDefs;

@@ -11,4 +11,7 @@ module.exports = {
     ...user.userMutation,
     ...meeting.meetingMutation,
   },
+  Subscription: {
+    ...meeting.meetingSubscription,
+  },
 };
