@@ -1,6 +1,7 @@
 import React from 'react';
 import './MeetingItem.scss';
 import { Play, Trash } from 'react-ionicons';
+import { useHistory } from 'react-router-dom';
 import { GetMeetingsType } from '../Meeting';
 
 interface Props {
@@ -11,9 +12,19 @@ interface Props {
 const MeetingItem = (props: Props) => {
   const { item, handleDelete } = props;
 
+  const history = useHistory();
+
+  const handleViewMeetingDetail = (id: string) =>
+    history.push(`/meeting/${id}`);
+
   return (
     <div className='meetingItem relative flex items-center justify-between border border-secondaryColor w-full'>
-      <div className='font-bold  text-secondaryColor'>{item.name}</div>
+      <div
+        className='font-bold  text-secondaryColor cursor-pointer'
+        onClick={() => handleViewMeetingDetail(item._id)}
+      >
+        {item.name}
+      </div>
       <div className='flex items-center'>
         <button
           type='button'
