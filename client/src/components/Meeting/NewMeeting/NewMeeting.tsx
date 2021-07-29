@@ -1,11 +1,16 @@
 import React from 'react';
 import './NewMeeting.scss';
 import { useHistory, Redirect } from 'react-router-dom';
-import { PaperPlane, ChevronBack } from 'react-ionicons';
+import { PaperPlane } from 'react-ionicons';
 import { string, object } from 'yup';
 import { useFormik } from 'formik';
 import { useMutation, gql } from '@apollo/client';
-import { AuthLayout as Layout, Button, ButtonBackground } from '../../Reusable';
+import {
+  AuthLayout as Layout,
+  Button,
+  ButtonBackground,
+  BackButton,
+} from '../../Reusable';
 import { MEETING, GetMeetingsType } from '..';
 
 const NewMeetingSchema = object().shape({
@@ -62,13 +67,7 @@ export const NewMeeting = () => {
     <Layout>
       <div className='newMeeting mx-auto'>
         <div className='flex items-center' style={{ marginBottom: '10px' }}>
-          <button
-            type='button'
-            className='outline-none focus:outline-none back flex items-center justify-center'
-            onClick={handleGoBack}
-          >
-            <ChevronBack />
-          </button>
+          <BackButton handleGoBack={handleGoBack} />
           <h1 className='font-bold ml-2'>Schedule new meeting</h1>
         </div>
         <form autoComplete='off' onSubmit={formik.handleSubmit}>
