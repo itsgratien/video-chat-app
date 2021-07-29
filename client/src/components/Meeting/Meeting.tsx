@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './Meeting.scss';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { useQuery, gql, useMutation, useSubscription } from '@apollo/client';
 import { BagAdd } from 'react-ionicons';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AuthLayout as Layout } from '../Reusable';
 import { Route } from '../../utils';
 import { MeetingItem } from './MeetingItem';
@@ -35,6 +35,15 @@ const DELETE_MEETING = gql`
     }
   }
 `;
+
+const CREATED_MEETING_SUBSCRIPTION = gql`
+  subscription GetCreatedMeeting {
+    getCreatedMeeting {
+      _id
+      name
+    }
+  }
+`;
 export interface GetMeetingsType {
   _id: string;
   name: string;
@@ -59,64 +68,53 @@ interface DeleteMeetingVariable {
   id: string;
 }
 
-const Meeting = () => {
-  const [items, setItems] = useState<GetMeetingsType[]>();
+interface GetCreatedMeetingResponse {
+  getCreatedMeeting: GetMeetingsType | null;
+}
 
-  const [itemId, setItemId] = useState<string>();
+const Meeting = () => {
+  const [items, setItems] = useState<GetMeetingsType[]>([]);
 
   const { data, loading, error } = useQuery<MeetingResponse>(GET_MEETINGS, {
     fetchPolicy: 'network-only',
   });
 
-  const [deleteMeeting, deleteResponse] = useMutation<
+  const [deleteMeeting, { data: deleteResponse }] = useMutation<
     DeleteMeetingResponse,
     DeleteMeetingVariable
   >(DELETE_MEETING);
 
-  const history = useHistory();
+  const { data: newMeetingResponse } =
+    useSubscription<GetCreatedMeetingResponse>(CREATED_MEETING_SUBSCRIPTION);
 
-  const handleViewMeeting = () => history.push(Route.NewMeeting);
+  const handleDeleteMeeting = useCallback(
+    (value: string) => {
+      deleteMeeting({ variables: { id: value } });
 
-  const handleDeleteMeeting = (value: string) => {
-    deleteMeeting({ variables: { id: value } });
-
-    setItemId(value);
-
-    return undefined;
-  };
+      return undefined;
+    },
+    [deleteMeeting]
+  );
 
   useEffect(() => {
-    if (data && data.getMeetings) {
+    if (data && data.getMeetings && !deleteResponse && !newMeetingResponse) {
       setItems(data.getMeetings);
     }
-  }, [data]);
-
-  useEffect(() => {
-    if (
-      deleteResponse &&
-      deleteResponse.data &&
-      deleteResponse.data.deleteMeeting &&
-      itemId &&
-      items
-    ) {
-      const filteredData = items.filter((item) => item._id !== itemId);
-
-      setItems(filteredData);
-    }
-  }, [deleteResponse, items, itemId]);
+  }, [data, deleteResponse, newMeetingResponse]);
 
   return (
     <Layout>
       <div className='relative container mx-auto meeting'>
         <div className='meetingItemContainer flex flex-col justify-center'>
           <div className='addMeeting'>
-            <button
-              type='button'
-              className='text-center font-bold flex items-center justify-center border-0 border-b border-secondaryColor pl-3 pr-3 pb-2'
-              onClick={handleViewMeeting}
-            >
-              <BagAdd /> <span className='ml-2'>meeting</span>
-            </button>
+            <Link to={Route.NewMeeting}>
+              <button
+                type='button'
+                className='text-center font-bold flex items-center justify-center border-0 border-b border-secondaryColor pl-3 pr-3 pb-2'
+              >
+                <BagAdd /> <span className='ml-2'>meeting</span>
+              </button>
+            </Link>
           </div>
           {error && (
             <span className='text-secondaryColor font-bold'>

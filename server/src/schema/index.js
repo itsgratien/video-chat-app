@@ -45,7 +45,7 @@ const typeDefs = gql`
   }
 
   type Subscription {
-    meetingCreated: Meeting!
+    getCreatedMeeting: Meeting!
   }
 `;
 

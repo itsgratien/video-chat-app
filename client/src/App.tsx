@@ -1,16 +1,45 @@
 import React from 'react';
 import './App.scss';
-import { ApolloProvider, ApolloClient } from '@apollo/client';
+import { ApolloProvider, ApolloClient, HttpLink, split } from '@apollo/client';
+import { WebSocketLink } from '@apollo/client/link/ws';
+import { getMainDefinition } from '@apollo/client/utilities';
 import { Router } from './components/Router';
 import { environment, AppEnum } from './utils';
 import { cache } from './cache';
 
-const client = new ApolloClient({
+const wsLink = new WebSocketLink({
+  uri: environment.webSocketUrl,
+  options: {
+    reconnect: true,
+    connectionParams: {
+      authorization: localStorage.getItem(AppEnum.Token) || '',
+    },
+  },
+});
+
+const httpLink = new HttpLink({
   uri: environment.baseUrl,
-  cache,
   headers: {
     authorization: localStorage.getItem(AppEnum.Token) || '',
   },
+});
+
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    );
+  },
+  wsLink,
+  httpLink
+);
+
+const client = new ApolloClient({
+  link: splitLink,
+  cache,
 });
 
 const App = () => {

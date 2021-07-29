@@ -1,11 +1,7 @@
-const { PubSub } = require('graphql-subscriptions');
-
-const event = require('../../event');
-
-const pubSub = new PubSub();
+const { pubSub, pubSubEvent } = require('../../pubsub');
 
 module.exports = {
-  meetingCreated: {
-    subscribe: () => pubSub.asyncIterator([event.meetingCreated]),
+  getCreatedMeeting: {
+    subscribe: () => pubSub.asyncIterator([pubSubEvent.meetingCreated]),
   },
 };

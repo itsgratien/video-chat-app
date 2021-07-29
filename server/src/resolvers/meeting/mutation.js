@@ -1,10 +1,6 @@
 const { ApolloError, UserInputError } = require('apollo-server-express');
 
-const { PubSub } = require('graphql-subscriptions');
-
-const event = require('../../event');
-
-const pubSub = new PubSub();
+const { pubSub, pubSubEvent } = require('../../pubsub');
 
 class MeetingMutation {
   addMeeting = async (_, args, context) => {
@@ -13,7 +9,9 @@ class MeetingMutation {
 
       const add = await dataSources.meetingAPI.addMeeting(user._id, args);
 
-      pubSub.publish(event.meetingCreated, { meetingCreated: add });
+      pubSub.publish(pubSubEvent.meetingCreated, {
+        getCreatedMeeting: add.data,
+      });
 
       return add;
     } catch (error) {

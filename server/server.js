@@ -60,7 +60,11 @@ config();
   server.applyMiddleware({ app });
 
   SubscriptionServer.create(
-    { execute, subscribe },
+    {
+      execute,
+      subscribe,
+      schema,
+    },
     { server: httpServer, path: server.graphqlPath }
   );
 
