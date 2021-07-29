@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Meeting.scss';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, useMutation } from '@apollo/client';
 import { BagAdd } from 'react-ionicons';
 import { useHistory } from 'react-router-dom';
 import { AuthLayout as Layout } from '../Reusable';
@@ -27,6 +27,14 @@ const GET_MEETINGS = gql`
   }
   ${MEETING}
 `;
+
+const DELETE_MEETING = gql`
+  mutation DeleteMeeting($id: ID!) {
+    deleteMeeting(id: $id) {
+      message
+    }
+  }
+`;
 export interface GetMeetingsType {
   _id: string;
   name: string;
@@ -41,14 +49,61 @@ export interface MeetingResponse {
   getMeetings: GetMeetingsType[] | null;
 }
 
+interface DeleteMeetingResponse {
+  deleteMeeting: {
+    message: string;
+  } | null;
+}
+
+interface DeleteMeetingVariable {
+  id: string;
+}
+
 const Meeting = () => {
+  const [items, setItems] = useState<GetMeetingsType[]>();
+
+  const [itemId, setItemId] = useState<string>();
+
   const { data, loading, error } = useQuery<MeetingResponse>(GET_MEETINGS, {
     fetchPolicy: 'network-only',
   });
 
+  const [deleteMeeting, deleteResponse] = useMutation<
+    DeleteMeetingResponse,
+    DeleteMeetingVariable
+  >(DELETE_MEETING);
+
   const history = useHistory();
 
   const handleViewMeeting = () => history.push(Route.NewMeeting);
+
+  const handleDeleteMeeting = (value: string) => {
+    deleteMeeting({ variables: { id: value } });
+
+    setItemId(value);
+
+    return undefined;
+  };
+
+  useEffect(() => {
+    if (data && data.getMeetings) {
+      setItems(data.getMeetings);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (
+      deleteResponse &&
+      deleteResponse.data &&
+      deleteResponse.data.deleteMeeting &&
+      itemId &&
+      items
+    ) {
+      const filteredData = items.filter((item) => item._id !== itemId);
+
+      setItems(filteredData);
+    }
+  }, [deleteResponse, items, itemId]);
 
   return (
     <Layout>
@@ -69,12 +124,16 @@ const Meeting = () => {
             </span>
           )}
 
-          {!loading && data && data.getMeetings && (
+          {!loading && items && (
             <>
-              {data.getMeetings.length > 0 ? (
+              {items.length > 0 ? (
                 <>
-                  {data.getMeetings.map((item) => (
-                    <MeetingItem item={item} key={item._id} />
+                  {items.map((item) => (
+                    <MeetingItem
+                      item={item}
+                      key={item._id}
+                      handleDelete={handleDeleteMeeting}
+                    />
                   ))}
                 </>
               ) : (

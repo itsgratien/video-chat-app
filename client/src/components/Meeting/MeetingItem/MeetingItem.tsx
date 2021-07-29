@@ -5,10 +5,11 @@ import { GetMeetingsType } from '../Meeting';
 
 interface Props {
   item: GetMeetingsType;
+  handleDelete: (id: string) => void;
 }
 
 const MeetingItem = (props: Props) => {
-  const { item } = props;
+  const { item, handleDelete } = props;
 
   return (
     <div className='meetingItem relative flex items-center justify-between border border-secondaryColor w-full'>
@@ -23,6 +24,7 @@ const MeetingItem = (props: Props) => {
         <button
           type='button'
           className='outline-none focus:outline-none bg-secondaryColor flex items-center justify-center'
+          onClick={() => handleDelete(item._id)}
         >
           <Trash color='white' />
         </button>
