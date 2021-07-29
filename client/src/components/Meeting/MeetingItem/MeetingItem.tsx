@@ -2,7 +2,7 @@ import React from 'react';
 import './MeetingItem.scss';
 import { Play, Trash } from 'react-ionicons';
 import { useHistory } from 'react-router-dom';
-import { GetMeetingsType } from '../Meeting';
+import { GetMeetingsType } from '..';
 
 interface Props {
   item: GetMeetingsType;

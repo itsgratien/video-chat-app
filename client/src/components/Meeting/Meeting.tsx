@@ -1,93 +1,32 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './Meeting.scss';
-import { useQuery, gql, useMutation, useSubscription } from '@apollo/client';
+import { useQuery, useMutation, useSubscription } from '@apollo/client';
 import { BagAdd } from 'react-ionicons';
 import { Link } from 'react-router-dom';
 import { AuthLayout as Layout } from '../Reusable';
 import { Route } from '../../utils';
 import { MeetingItem } from './MeetingItem';
-
-export const MEETING = gql`
-  fragment MeetingItem on Meeting {
-    _id
-    name
-    owner
-    meetingLink
-    passCode
-    createdAt
-    updatedAt
-  }
-`;
-
-const GET_MEETINGS = gql`
-  query GetMeetings {
-    getMeetings {
-      ...MeetingItem
-    }
-  }
-  ${MEETING}
-`;
-
-const DELETE_MEETING = gql`
-  mutation DeleteMeeting($id: ID!) {
-    deleteMeeting(id: $id) {
-      message
-      meetingId
-    }
-  }
-`;
-
-const CREATED_MEETING_SUBSCRIPTION = gql`
-  subscription GetCreatedMeeting {
-    getCreatedMeeting {
-      _id
-      name
-    }
-  }
-`;
-export interface GetMeetingsType {
-  _id: string;
-  name: string;
-  owner: string;
-  passCode: string;
-  meetingLink: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface MeetingResponse {
-  getMeetings: GetMeetingsType[] | null;
-}
-
-interface DeleteMeetingResponse {
-  deleteMeeting: {
-    message: string;
-    meetingId: string;
-  } | null;
-}
-
-interface DeleteMeetingVariable {
-  id: string;
-}
-
-interface GetCreatedMeetingResponse {
-  getCreatedMeeting: GetMeetingsType | null;
-}
+import * as MeetingTypes from './generated';
 
 const Meeting = () => {
-  const [items, setItems] = useState<GetMeetingsType[]>([]);
+  const [items, setItems] = useState<MeetingTypes.GetMeetingsType[]>([]);
 
-  const { data, loading, error } = useQuery<MeetingResponse>(GET_MEETINGS, {
-    fetchPolicy: 'network-only',
-  });
+  const { data, loading, error } = useQuery<MeetingTypes.MeetingResponse>(
+    MeetingTypes.GET_MEETINGS,
+    {
+      fetchPolicy: 'network-only',
+    }
+  );
 
   const [deleteMeeting, { data: deleteResponse }] = useMutation<
-    DeleteMeetingResponse,
-    DeleteMeetingVariable
-  >(DELETE_MEETING);
+    MeetingTypes.DeleteMeetingResponse,
+    MeetingTypes.DeleteMeetingVariable
+  >(MeetingTypes.DELETE_MEETING);
 
   const { data: newMeetingResponse } =
-    useSubscription<GetCreatedMeetingResponse>(CREATED_MEETING_SUBSCRIPTION);
+    useSubscription<MeetingTypes.GetCreatedMeetingResponse>(
+      MeetingTypes.CREATED_MEETING_SUBSCRIPTION
+    );
 
   const handleDeleteMeeting = useCallback(
     (value: string) => {
@@ -115,6 +54,13 @@ const Meeting = () => {
     // eslint-disable-next-line
   }, [deleteResponse]);
 
+  useEffect(() => {
+    if (newMeetingResponse && newMeetingResponse.getCreatedMeeting) {
+      setItems([newMeetingResponse.getCreatedMeeting, ...items]);
+    }
+    // eslint-disable-next-line
+  }, [newMeetingResponse]);
+
   return (
     <Layout>
       <div className='relative container mx-auto meeting'>
@@ -139,10 +85,10 @@ const Meeting = () => {
             <>
               {items.length > 0 ? (
                 <>
-                  {items.map((item) => (
+                  {items.map((item, index) => (
                     <MeetingItem
                       item={item}
-                      key={item._id}
+                      key={index}
                       handleDelete={handleDeleteMeeting}
                     />
                   ))}

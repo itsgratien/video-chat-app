@@ -11,7 +11,7 @@ import {
   ButtonBackground,
   BackButton,
 } from '../../Reusable';
-import { MEETING, GetMeetingsType } from '..';
+import { MEETING, GetMeetingsType } from '../generated';
 
 const NewMeetingSchema = object().shape({
   name: string().required('meeting title is required'),

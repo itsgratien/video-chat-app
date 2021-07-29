@@ -9,7 +9,7 @@ import {
   BackButton,
 } from '../../Reusable';
 import { MeetingDetailItem } from './MeetingDetailItem';
-import { MEETING, GetMeetingsType } from '../../Meeting';
+import { MEETING, GetMeetingsType } from '../generated';
 
 const GET_MEETING_DETAIL = gql`
   query GetMeetingDetail($id: ID!) {
