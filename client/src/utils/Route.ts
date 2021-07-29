@@ -7,5 +7,7 @@ export enum Route{
 
     Meeting = '/meetings',
 
-    NewMeeting = '/meeting/new'
+    NewMeeting = '/meeting/new',
+
+    MeetingDetail = '/meeting/:id'
 }

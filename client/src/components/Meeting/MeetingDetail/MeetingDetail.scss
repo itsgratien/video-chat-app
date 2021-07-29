@@ -1,0 +1,16 @@
+.meetingDetail {
+  width: 500px;
+  margin-top: 33px;
+  border-radius: 5px;
+  padding-bottom: 50px;
+  svg {
+    width: 100%;
+  }
+  .detail {
+    position: absolute;
+    top: 0;
+    padding: 26px 45px;
+    left: 0;
+    right: 0;
+  }
+}

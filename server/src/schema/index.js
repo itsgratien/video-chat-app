@@ -12,6 +12,7 @@ const typeDefs = gql`
     meetingLink: String!
     owner: String!
     passCode: String!
+    hasStarted: Boolean!
     createdAt: String
     updatedAt: String
   }

@@ -4,7 +4,7 @@ import { Route as Path } from '../../utils';
 import { Login } from '../Login';
 import { PageNotFound } from '../PageNotFound';
 import { Dashboard } from '../Dashboard';
-import { Meeting, NewMeeting } from '../Meeting';
+import { Meeting, NewMeeting, MeetingDetail } from '../Meeting';
 
 const Router = () => {
   const appRouter = [
@@ -27,6 +27,10 @@ const Router = () => {
     {
       component: <NewMeeting />,
       path: Path.NewMeeting,
+    },
+    {
+      component: <MeetingDetail />,
+      path: Path.MeetingDetail,
     },
   ];
   return (

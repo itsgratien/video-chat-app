@@ -1,0 +1,17 @@
+.meetingDetailItem {
+  margin-top: 15px;
+  .item {
+    span {
+      font-size: 13px;
+    }
+  }
+  .copy {
+    width: 35px;
+    height: 35px;
+    button {
+      width: 100%;
+      height: 100%;
+      border-radius: 5px;
+    }
+  }
+}

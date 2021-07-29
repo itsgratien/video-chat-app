@@ -16,6 +16,8 @@ interface Props {
   disabled?: boolean;
   onClick?: () => void;
   borderRadius?: '5px' | '10px';
+  height?: string;
+  fontSize?: string;
 }
 
 const Button = (props: Props) => {
@@ -29,6 +31,8 @@ const Button = (props: Props) => {
     disabled,
     borderRadius,
     onClick,
+    height,
+    fontSize,
   } = props;
 
   return (
@@ -40,12 +44,13 @@ const Button = (props: Props) => {
       style={{
         borderRadius: borderRadius || '10px',
         backgroundColor,
-        height: '67px',
+        height: height || '67px',
         border: showBlackBorder ? `1px solid ${ButtonBackground.Black}` : '',
         color:
           backgroundColor === ButtonBackground.Black
             ? 'white'
             : ButtonBackground.Black,
+        fontSize: fontSize || '15px',
       }}
       disabled={disabled}
       onClick={onClick}

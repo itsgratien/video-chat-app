@@ -18,6 +18,11 @@ const Meeting = new mongoose.Schema(
       type: String,
       required: true,
     },
+    hasStarted: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   { timestamps: true }
 );

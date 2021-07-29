@@ -69,7 +69,7 @@ const Meeting = () => {
             </span>
           )}
 
-          {data && data.getMeetings && (
+          {!loading && data && data.getMeetings && (
             <>
               {data.getMeetings.length > 0 ? (
                 <>

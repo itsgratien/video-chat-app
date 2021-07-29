@@ -1,12 +1,12 @@
 import React from 'react';
 import './NewMeeting.scss';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 import { PaperPlane, ChevronBack } from 'react-ionicons';
 import { string, object } from 'yup';
 import { useFormik } from 'formik';
 import { useMutation, gql } from '@apollo/client';
 import { AuthLayout as Layout, Button, ButtonBackground } from '../../Reusable';
-import { MEETING } from '..';
+import { MEETING, GetMeetingsType } from '..';
 
 const NewMeetingSchema = object().shape({
   name: string().required('meeting title is required'),
@@ -24,12 +24,26 @@ const ADD_MEETING = gql`
   ${MEETING}
 `;
 
+interface AddMeetingResponse {
+  addMeeting: {
+    data: GetMeetingsType;
+    message: string;
+  };
+}
+
+interface AddMeetingVariables {
+  name: string;
+}
+
 export const NewMeeting = () => {
   const history = useHistory();
 
   const handleGoBack = () => history.goBack();
 
-  const [addMeeting, { loading, error }] = useMutation(ADD_MEETING);
+  const [addMeeting, { loading, error, data }] = useMutation<
+    AddMeetingResponse,
+    AddMeetingVariables
+  >(ADD_MEETING);
 
   const formik = useFormik({
     validateOnChange: false,
@@ -39,6 +53,10 @@ export const NewMeeting = () => {
   });
 
   const { values, errors } = formik;
+
+  if (data && !error && !loading) {
+    return <Redirect to={`/meeting/${data.addMeeting.data._id}`} />;
+  }
 
   return (
     <Layout>
