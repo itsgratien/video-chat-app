@@ -1,10 +1,11 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
+  scalar Date
   type User {
     _id: ID!
     email: String!
-    lastSeen: Int
+    lastSeen: Date
   }
 
   type Meeting {
@@ -44,11 +45,12 @@ const typeDefs = gql`
     addMeeting(name: String!): AddMeetingResponse!
     deleteMeeting(id: ID!): DeleteMeetingResponse!
     startMeeting(id: ID!, passCode: String!): Meeting!
+    updateLastSeen: User!
   }
 
   type Subscription {
     getCreatedMeeting: Meeting!
-    getLoggedInUser: User!
+    getOnlineUsers(id: String!): [User!]!
   }
 `;
 

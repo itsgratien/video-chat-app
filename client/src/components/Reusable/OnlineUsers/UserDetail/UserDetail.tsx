@@ -18,7 +18,7 @@ const UserDetail = (props: Props) => {
     >
       <div className='detail flex items-center'>
         <div className='handle flex items-center justify-center font-bold text-white bg-secondaryColor'>
-          g
+          {email.charAt(0)}
         </div>
         <div className='font-bold ml-2'>{email}</div>
       </div>

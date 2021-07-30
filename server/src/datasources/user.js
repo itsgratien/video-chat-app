@@ -22,6 +22,24 @@ class UserDataSource {
       email: find.email,
     };
   };
+
+  updateLastSeen = async (userId, arg) => {
+    const update = await userModel.findOneAndUpdate(
+      { _id: userId },
+      { $set: { lastSeen: arg } },
+      { new: true }
+    );
+
+    return update;
+  };
+
+  getOnlineUsers = async (loggedInUserId, lastSeen) => {
+    const find = await userModel.find({
+      $and: [{ _id: { $ne: loggedInUserId } }],
+    });
+
+    return find;
+  };
 }
 
 module.exports = new UserDataSource();

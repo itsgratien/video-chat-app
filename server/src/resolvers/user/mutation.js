@@ -2,6 +2,8 @@ const { ApolloError, ValidationError } = require('apollo-server-express');
 
 const { validate } = require('isemail');
 
+const { pubSub, pubSubEvent } = require('../../pubsub');
+
 class UserMutation {
   login = async (__, args, { dataSources }) => {
     try {
@@ -17,6 +19,26 @@ class UserMutation {
       };
     } catch (error) {
       throw new ApolloError('Unable to login due to internal server error');
+    }
+  };
+
+  updateLastSeen = async (_, args, { dataSources, user }) => {
+    try {
+      const lastSeen = Date.now()
+      const update = await dataSources.userAPI.updateLastSeen(
+        user._id,
+        lastSeen
+      );
+
+      // const onlineUsers = await dataSources.userAPI.getOnlineUsers(user._id, lastSeen);
+
+      // pubSub.publish(pubSubEvent.getOnlineUsers, { getOnlineUsers: onlineUsers });
+
+      return update;
+    } catch (error) {
+      throw new ApolloError(
+        'Unable to perform action due to internal server error'
+      );
     }
   };
 }

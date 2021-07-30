@@ -1,9 +1,14 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import './AuthLayout.scss';
 import { Redirect, useHistory } from 'react-router-dom';
-import { useQuery, useApolloClient } from '@apollo/client';
+import { useQuery, useApolloClient, useMutation } from '@apollo/client';
 import Layout, { AuthContext } from '../Layout';
-import { GET_CURRENT_USER, GetProfileResponse } from '../generated';
+import {
+  GET_CURRENT_USER,
+  GetProfileResponse,
+  UPDATE_LAST_SEEN,
+  UpdateLastSeenResponse,
+} from '../generated';
 import { Route, AppEnum } from '../../../../utils';
 import { Button, ButtonBackground, OnlineUsers } from '../..';
 import { getCurrentUser, isLoggedInVar } from '../../../../cache';
@@ -15,9 +20,12 @@ const AuthLayout: FC = (props) => {
 
   const client = useApolloClient();
 
-  const { loading } = useQuery<GetProfileResponse>(GET_CURRENT_USER, {
+  const { loading, data } = useQuery<GetProfileResponse>(GET_CURRENT_USER, {
     fetchPolicy: 'network-only',
   });
+
+  const [updateLastSeen] =
+    useMutation<UpdateLastSeenResponse>(UPDATE_LAST_SEEN);
 
   const handleLogout = () => {
     client.cache.evict({ fieldName: 'me' });
@@ -41,6 +49,16 @@ const AuthLayout: FC = (props) => {
     return undefined;
   };
 
+  useEffect(() => {
+    updateLastSeen();
+
+    setInterval(() => updateLastSeen(), 2000);
+
+    return () => {
+      clearInterval();
+    };
+  }, [updateLastSeen]);
+
   return (
     <Layout>
       <AuthContext.Consumer>
@@ -56,7 +74,9 @@ const AuthLayout: FC = (props) => {
           }
           return (
             <div className='authLayout relative flex flex-col min-h-screen'>
-              <OnlineUsers />
+              {data && data.getProfile && (
+                <OnlineUsers userId={data.getProfile._id} />
+              )}
               <div className='children'>{children}</div>
               <div className='footer fixed w-full relative bottom-0'>
                 <div className='logoutSection flex items-center justify-center w-full'>
