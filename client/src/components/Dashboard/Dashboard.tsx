@@ -2,13 +2,13 @@ import React from 'react';
 import './Dashboard.scss';
 import { PaperPlane } from 'react-ionicons';
 import { useHistory } from 'react-router-dom';
-import { useQuery, gql } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import { AuthLayout as Layout, Button, ButtonBackground } from '../Reusable';
 import { Route } from '../../utils';
 import { User } from '../../cache';
 
 const GET_PROFILE = gql`
-  query GetProfile {
+  query GetLoggedInUser {
     me @client {
       _id
       email

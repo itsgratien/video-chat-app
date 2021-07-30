@@ -77,7 +77,7 @@ const Meeting = () => {
           </div>
           {error && (
             <span className='text-secondaryColor font-bold'>
-              An error occurred
+              {error.message}
             </span>
           )}
 

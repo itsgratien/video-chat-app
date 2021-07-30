@@ -7,7 +7,6 @@ const User = new mongoose.Schema({
   },
   lastSeen: {
     type: Date,
-    required: false,
     default: Date.now
   }
 });

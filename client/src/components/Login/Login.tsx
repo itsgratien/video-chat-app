@@ -3,9 +3,8 @@ import './Login.scss';
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
 import { useMutation, gql } from '@apollo/client';
-import { Redirect } from 'react-router-dom';
 import { AppEnum, Route } from '../../utils';
-import { isLoggedInVar } from '../../cache';
+import { isLoggedInVar, getCurrentUser } from '../../cache';
 import { Button, ButtonBackground, UnAuthLayout as Layout } from '../Reusable';
 
 const LoginSchema = object().shape({
@@ -49,6 +48,13 @@ const Login = () => {
       if (res.login) {
         localStorage.setItem(AppEnum.Token, res.login.token);
 
+        localStorage.setItem(
+          AppEnum.CurrentUser,
+          JSON.stringify(res.login.data)
+        );
+
+        getCurrentUser(res.login.data);
+
         isLoggedInVar(true);
       }
     },
@@ -64,7 +70,9 @@ const Login = () => {
   const { values, errors } = formik;
 
   if (!loading && data && !error) {
-    return <Redirect to={Route.Dashboard} />;
+    window.location.href = Route.Dashboard;
+
+    return <></>;
   }
 
   return (

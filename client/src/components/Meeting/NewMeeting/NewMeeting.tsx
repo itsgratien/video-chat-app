@@ -59,7 +59,7 @@ export const NewMeeting = () => {
 
   const { values, errors } = formik;
 
-  if (data && !error && !loading) {
+  if (data && data.addMeeting && !error && !loading) {
     return <Redirect to={`/meeting/${data.addMeeting.data._id}`} />;
   }
 

@@ -1,22 +1,21 @@
 import React, { FC } from 'react';
 import { Redirect } from 'react-router-dom';
-import Layout, { IsAuth } from '../Layout';
 import { Route } from '../../../../utils';
+import Layout, { AuthContext } from '../Layout';
 
 const UnAuthLayout: FC = (props) => {
   const { children } = props;
 
   return (
     <Layout>
-      <IsAuth.Consumer>
+      <AuthContext.Consumer>
         {(value) => {
-          if (value.isLoggedIn) {
-            return <Redirect to={Route.Dashboard} />;
+          if (!value.isLoggedIn) {
+            return <>{children}</>;
           }
-
-          return <>{children}</>;
+          return <Redirect to={Route.Dashboard} />;
         }}
-      </IsAuth.Consumer>
+      </AuthContext.Consumer>
     </Layout>
   );
 };

@@ -1,23 +1,18 @@
 import React, { FC, createContext } from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { IS_LOGGED_IN } from './generated';
 
-export const IsAuth = createContext<{ isLoggedIn?: boolean }>({});
-
-const IS_LOGGED_ID = gql`
-  query IsUserLoggedIn {
-    isLoggedIn @client
-  }
-`;
+export const AuthContext = createContext<{ isLoggedIn?: boolean }>({});
 
 const Layout: FC = (props) => {
   const { children } = props;
 
-  const { data } = useQuery(IS_LOGGED_ID);
+  const { data } = useQuery(IS_LOGGED_IN);
 
   return (
-    <IsAuth.Provider value={{ isLoggedIn: data.isLoggedIn || false }}>
+    <AuthContext.Provider value={{ isLoggedIn: data.isLoggedIn }}>
       {children}
-    </IsAuth.Provider>
+    </AuthContext.Provider>
   );
 };
 export default Layout;

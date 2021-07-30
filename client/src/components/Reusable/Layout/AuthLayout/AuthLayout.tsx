@@ -1,48 +1,32 @@
 import React, { FC } from 'react';
 import './AuthLayout.scss';
-import { Redirect } from 'react-router-dom';
-import { useQuery, gql, useApolloClient } from '@apollo/client';
-import Layout, { IsAuth } from '../Layout';
+import { Redirect, useHistory } from 'react-router-dom';
+import { useQuery, useApolloClient } from '@apollo/client';
+import Layout, { AuthContext } from '../Layout';
+import { GET_CURRENT_USER, GetProfileResponse } from '../generated';
 import { Route, AppEnum } from '../../../../utils';
 import { Button, ButtonBackground, OnlineUsers } from '../..';
-import { getCurrentUser, User, isLoggedInVar } from '../../../../cache';
+import { getCurrentUser, isLoggedInVar } from '../../../../cache';
 
-const GET_CURRENT_USER = gql`
-  query GetCurrentUser {
-    getProfile {
-      _id
-      email
-    }
-  }
-`;
-
-interface GetProfileResponse {
-  getProfile: User | null;
-}
 const AuthLayout: FC = (props) => {
   const { children } = props;
+
+  const history = useHistory();
 
   const client = useApolloClient();
 
   const { loading } = useQuery<GetProfileResponse>(GET_CURRENT_USER, {
-    onCompleted: (res) => {
-      if (res.getProfile) {
-        localStorage.setItem(
-          AppEnum.CurrentUser,
-          JSON.stringify(res.getProfile)
-        );
-
-        getCurrentUser(res.getProfile);
-      }
-    },
+    fetchPolicy: 'network-only',
   });
 
   const handleLogout = () => {
     client.cache.evict({ fieldName: 'me' });
 
-    client.cache.evict({fieldName: 'isLoggedIn'});
+    client.cache.evict({ fieldName: 'isLoggedIn' });
 
     client.cache.gc();
+
+    client.clearStore();
 
     localStorage.removeItem(AppEnum.Token);
 
@@ -52,20 +36,24 @@ const AuthLayout: FC = (props) => {
 
     getCurrentUser(undefined);
 
+    history.push(Route.Login);
+
     return undefined;
   };
 
   return (
     <Layout>
-      <IsAuth.Consumer>
+      <AuthContext.Consumer>
         {(value) => {
           if (loading) {
             return <span>Loading ...</span>;
           }
-          if (!value.isLoggedIn) {
+          if (
+            typeof value.isLoggedIn === 'boolean' &&
+            value.isLoggedIn === false
+          ) {
             return <Redirect to={Route.Login} />;
           }
-
           return (
             <div className='authLayout relative flex flex-col min-h-screen'>
               <OnlineUsers />
@@ -85,7 +73,7 @@ const AuthLayout: FC = (props) => {
             </div>
           );
         }}
-      </IsAuth.Consumer>
+      </AuthContext.Consumer>
     </Layout>
   );
 };

@@ -4,6 +4,8 @@ const { userQuery } = require('./query');
 
 const { isAuth } = require('./auth');
 
+const userSubscription = require('./subscription');
+
 module.exports = {
   userMutation,
   userQuery: {
@@ -11,4 +13,5 @@ module.exports = {
     getProfile: isAuth(userQuery.getProfile),
   },
   isAuth,
+  userSubscription
 };

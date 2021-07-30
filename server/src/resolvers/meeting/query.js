@@ -14,7 +14,7 @@ class MeetingQuery {
       return add.data;
     } catch (error) {
       throw new ApolloError(
-        'Unable to add meeting due to internal server error'
+        'Unable to fetch meeting due to internal server error'
       );
     }
   };
@@ -28,7 +28,7 @@ class MeetingQuery {
       return add;
     } catch (error) {
       throw new ApolloError(
-        'Unable to add meeting due to internal server error'
+        'Unable to fetch meetings due to internal server error'
       );
     }
   };
