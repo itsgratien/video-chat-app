@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import './AuthLayout.scss';
 import { Redirect } from 'react-router-dom';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, useApolloClient } from '@apollo/client';
 import Layout, { IsAuth } from '../Layout';
 import { Route, AppEnum } from '../../../../utils';
 import { Button, ButtonBackground, OnlineUsers } from '../..';
-import { getCurrentUser, User } from '../../../../cache';
+import { getCurrentUser, User, isLoggedInVar } from '../../../../cache';
 
 const GET_CURRENT_USER = gql`
   query GetCurrentUser {
@@ -22,6 +22,8 @@ interface GetProfileResponse {
 const AuthLayout: FC = (props) => {
   const { children } = props;
 
+  const client = useApolloClient();
+
   const { loading } = useQuery<GetProfileResponse>(GET_CURRENT_USER, {
     onCompleted: (res) => {
       if (res.getProfile) {
@@ -34,6 +36,24 @@ const AuthLayout: FC = (props) => {
       }
     },
   });
+
+  const handleLogout = () => {
+    client.cache.evict({ fieldName: 'me' });
+
+    client.cache.evict({fieldName: 'isLoggedIn'});
+
+    client.cache.gc();
+
+    localStorage.removeItem(AppEnum.Token);
+
+    localStorage.removeItem(AppEnum.CurrentUser);
+
+    isLoggedInVar(false);
+
+    getCurrentUser(undefined);
+
+    return undefined;
+  };
 
   return (
     <Layout>
@@ -57,6 +77,7 @@ const AuthLayout: FC = (props) => {
                       name='Logout'
                       backgroundColor={ButtonBackground.Black}
                       type='button'
+                      onClick={handleLogout}
                     />
                   </div>
                 </div>

@@ -5,6 +5,11 @@ const User = new mongoose.Schema({
     type: String,
     required: true,
   },
+  lastSeen: {
+    type: Date,
+    required: false,
+    default: Date.now
+  }
 });
 
 module.exports = mongoose.model('User', User);
