@@ -11,6 +11,9 @@ const wsLink = new WebSocketLink({
   uri: environment.webSocketUrl,
   options: {
     reconnect: true,
+    connectionParams: {
+      authorization: localStorage.getItem(AppEnum.Token) || '',
+    },
   },
 });
 

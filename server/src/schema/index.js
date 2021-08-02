@@ -5,7 +5,7 @@ const typeDefs = gql`
   type User {
     _id: ID!
     email: String!
-    lastSeen: Date
+    lastSeen: String
   }
 
   type Meeting {
@@ -50,7 +50,7 @@ const typeDefs = gql`
 
   type Subscription {
     getCreatedMeeting: Meeting!
-    getOnlineUsers(id: String!): [User!]!
+    getOnlineUsers: [User!]!
   }
 `;
 

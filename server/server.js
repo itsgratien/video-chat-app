@@ -19,6 +19,7 @@ const { database } = require('./src/config');
 const resolvers = require('./src/resolvers');
 
 const dataSources = require('./src/datasources');
+const { manageAuthorization } = require('./src/datasources/user');
 
 config();
 
@@ -39,19 +40,13 @@ config();
       meetingAPI: dataSources.meetingDataSource,
     }),
     context: async ({ req }) => {
-      const auth = req.headers && req.headers.authorization;
+      const token = req.headers && req.headers.authorization;
 
-      if (!auth) return { user: null };
+      const manageAuth = await dataSources.userDataSource.manageAuthorization(
+        token
+      );
 
-      const userId = Buffer.from(auth, 'base64').toString('ascii');
-
-      const find = await dataSources.userDataSource.getProfile(userId);
-
-      if (!find) return { user: null };
-
-      return {
-        user: find,
-      };
+      return manageAuth;
     },
   });
 
@@ -64,6 +59,15 @@ config();
       execute,
       subscribe,
       schema,
+      onConnect: async (connectionParams) => {
+        const token = connectionParams.authorization;
+
+        const manageAuth = await dataSources.userDataSource.manageAuthorization(
+          token
+        );
+
+        return manageAuth;
+      },
     },
     { server: httpServer, path: server.graphqlPath }
   );

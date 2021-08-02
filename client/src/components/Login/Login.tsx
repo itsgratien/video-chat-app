@@ -58,6 +58,9 @@ const Login = () => {
         isLoggedInVar(true);
       }
     },
+    onError: (error)=>{
+      console.log('error', JSON.stringify(error));
+    }
   });
 
   const formik = useFormik({

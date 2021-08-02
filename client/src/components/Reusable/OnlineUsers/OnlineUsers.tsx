@@ -5,8 +5,8 @@ import { UserDetail } from './UserDetail';
 import { User } from '../../../cache';
 
 const GET_ONLINE_USERS = gql`
-  subscription GetOnlineUsers($id: String!) {
-    getOnlineUsers(id: $id) {
+  subscription GetOnlineUsers {
+    getOnlineUsers {
       _id
       email
       lastSeen
@@ -22,23 +22,12 @@ interface Props {
   userId: string;
 }
 
-interface GetOnlineUserVariables {
-  id: string;
-}
-
 const OnlineUsers = (props: Props) => {
   const [hovered, setHovered] = useState<boolean>(false);
 
   const [user, setUser] = useState<User>();
 
-  const { userId } = props;
-
-  const { data } = useSubscription<
-    GetOnlineUsersResponse,
-    GetOnlineUserVariables
-  >(GET_ONLINE_USERS, {
-    variables: { id: userId },
-  });
+  const { data } = useSubscription<GetOnlineUsersResponse>(GET_ONLINE_USERS);
 
   const handleHovered = (value: User) => {
     setHovered(true);

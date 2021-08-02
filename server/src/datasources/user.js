@@ -1,3 +1,5 @@
+const { sub } = require('date-fns');
+
 const { userModel } = require('../models');
 
 class UserDataSource {
@@ -34,11 +36,29 @@ class UserDataSource {
   };
 
   getOnlineUsers = async (loggedInUserId, lastSeen) => {
-    const find = await userModel.find({
-      $and: [{ _id: { $ne: loggedInUserId } }],
-    });
+    const d = sub(lastSeen, { seconds: 5 });
+
+    const find = await userModel
+      .find({
+        $and: [{ _id: { $ne: loggedInUserId } }, { lastSeen: { $gte: d } }],
+      })
+      .sort({ lastSeen: -1 });
 
     return find;
+  };
+
+  manageAuthorization = async (token) => {
+    if (!token) return { user: null };
+
+    const userId = Buffer.from(token, 'base64').toString('ascii');
+
+    const find = await this.getProfile(userId);
+
+    if (!find) return { user: null };
+
+    return {
+      user: find,
+    };
   };
 }
 

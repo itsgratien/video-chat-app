@@ -18,21 +18,20 @@ class UserMutation {
         token: Buffer.from(String(find._id)).toString('base64'),
       };
     } catch (error) {
+      console.log('error', error);
       throw new ApolloError('Unable to login due to internal server error');
     }
   };
 
   updateLastSeen = async (_, args, { dataSources, user }) => {
     try {
-      const lastSeen = Date.now()
+      const lastSeen = Date.now();
       const update = await dataSources.userAPI.updateLastSeen(
         user._id,
         lastSeen
       );
 
-      // const onlineUsers = await dataSources.userAPI.getOnlineUsers(user._id, lastSeen);
-
-      // pubSub.publish(pubSubEvent.getOnlineUsers, { getOnlineUsers: onlineUsers });
+      pubSub.publish(pubSubEvent.getOnlineUsers, { getOnlineUsers: update });
 
       return update;
     } catch (error) {

@@ -52,7 +52,7 @@ const AuthLayout: FC = (props) => {
   useEffect(() => {
     updateLastSeen();
 
-    setInterval(() => updateLastSeen(), 2000);
+    setInterval(() => updateLastSeen(), 5000);
 
     return () => {
       clearInterval();
