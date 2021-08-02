@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import { User } from '../../../cache';
 
-export const FRAGMENT = gql`
+export const USER_FRAGMENT = gql`
   fragment UserItem on User {
     _id
     email
@@ -20,7 +20,7 @@ export const GET_CURRENT_USER = gql`
       ...UserItem
     }
   }
-  ${FRAGMENT}
+  ${USER_FRAGMENT}
 `;
 
 export interface GetProfileResponse {
@@ -33,9 +33,48 @@ export const UPDATE_LAST_SEEN = gql`
       ...UserItem
     }
   }
-  ${FRAGMENT}
+  ${USER_FRAGMENT}
 `;
 
 export interface UpdateLastSeenResponse {
   updateLastSeen: User | null;
+}
+
+export interface GetWhoIsCallingResponse {
+  getWhoIsCalling:
+    | {
+        _id: string;
+        status: string;
+        receiverId: string;
+        senderId: User;
+      }
+    | undefined;
+}
+
+export const GET_WHO_IS_CALLING = gql`
+  subscription GetWhoIsCalling {
+    getWhoIsCalling {
+      _id
+      status
+      receiverId
+      senderId {
+        ...UserItem
+      }
+    }
+  }
+  ${USER_FRAGMENT}
+`;
+
+export const GET_ONLINE_USERS = gql`
+  subscription GetOnlineUsers {
+    getOnlineUsers {
+      _id
+      email
+      lastSeen
+    }
+  }
+`;
+
+export interface GetOnlineUsersResponse {
+  getOnlineUsers: User[] | undefined;
 }

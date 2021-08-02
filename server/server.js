@@ -38,6 +38,7 @@ config();
     dataSources: () => ({
       userAPI: dataSources.userDataSource,
       meetingAPI: dataSources.meetingDataSource,
+      callAPI: dataSources.callDataSource,
     }),
     context: async ({ req }) => {
       const token = req.headers && req.headers.authorization;

@@ -1,15 +1,17 @@
 import React from 'react';
 import './UserDetail.scss';
 import { Call } from 'react-ionicons';
+import { User } from '../../../../cache';
 
 interface Props {
   email: string;
   id: string;
   setHovered: (value: boolean) => void;
+  handleMakeCall: (user: User) => void;
 }
 
 const UserDetail = (props: Props) => {
-  const { email, setHovered } = props;
+  const { email, setHovered, handleMakeCall, id } = props;
 
   return (
     <div
@@ -26,6 +28,7 @@ const UserDetail = (props: Props) => {
         <button
           type='button'
           className='outline-none focus:outline-none flex items-center justify-center border border-secondaryColor'
+          onClick={() => handleMakeCall({ email, _id: id })}
         >
           <Call />
         </button>

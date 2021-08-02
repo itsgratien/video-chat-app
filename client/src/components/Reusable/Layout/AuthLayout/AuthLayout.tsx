@@ -1,16 +1,25 @@
 import React, { FC, useEffect } from 'react';
 import './AuthLayout.scss';
 import { Redirect, useHistory } from 'react-router-dom';
-import { useQuery, useApolloClient, useMutation } from '@apollo/client';
+import {
+  useQuery,
+  useApolloClient,
+  useMutation,
+  useSubscription,
+} from '@apollo/client';
 import Layout, { AuthContext } from '../Layout';
 import {
   GET_CURRENT_USER,
   GetProfileResponse,
   UPDATE_LAST_SEEN,
   UpdateLastSeenResponse,
+  GetWhoIsCallingResponse,
+  GET_WHO_IS_CALLING,
+  GetOnlineUsersResponse,
+  GET_ONLINE_USERS,
 } from '../generated';
 import { Route, AppEnum } from '../../../../utils';
-import { Button, ButtonBackground, OnlineUsers } from '../..';
+import { OnlineUsers, Footer, WhoIsCalling } from '../..';
 import { getCurrentUser, isLoggedInVar } from '../../../../cache';
 
 const AuthLayout: FC = (props) => {
@@ -26,6 +35,12 @@ const AuthLayout: FC = (props) => {
 
   const [updateLastSeen] =
     useMutation<UpdateLastSeenResponse>(UPDATE_LAST_SEEN);
+
+  const { data: getWhoIsCallingResponse } =
+    useSubscription<GetWhoIsCallingResponse>(GET_WHO_IS_CALLING);
+
+  const { data: onlineUsers } =
+    useSubscription<GetOnlineUsersResponse>(GET_ONLINE_USERS);
 
   const handleLogout = () => {
     client.cache.evict({ fieldName: 'me' });
@@ -74,22 +89,18 @@ const AuthLayout: FC = (props) => {
           }
           return (
             <div className='authLayout relative flex flex-col min-h-screen'>
-              {data && data.getProfile && (
-                <OnlineUsers userId={data.getProfile._id} />
+              {getWhoIsCallingResponse &&
+                getWhoIsCallingResponse.getWhoIsCalling &&
+                getWhoIsCallingResponse.getWhoIsCalling.senderId && (
+                  <WhoIsCalling
+                    user={getWhoIsCallingResponse.getWhoIsCalling.senderId}
+                  />
+                )}
+              {onlineUsers && (
+                <OnlineUsers users={onlineUsers.getOnlineUsers} />
               )}
               <div className='children'>{children}</div>
-              <div className='footer fixed w-full relative bottom-0'>
-                <div className='logoutSection flex items-center justify-center w-full'>
-                  <div style={{ width: '219px' }}>
-                    <Button
-                      name='Logout'
-                      backgroundColor={ButtonBackground.Black}
-                      type='button'
-                      onClick={handleLogout}
-                    />
-                  </div>
-                </div>
-              </div>
+              <Footer handleClick={handleLogout} />
             </div>
           );
         }}

@@ -1,0 +1,28 @@
+.whoIsCalling {
+  z-index: 300;
+  .callAlert {
+    width: 450px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.05);
+    margin: auto;
+    div {
+      &:first-child {
+        font-size: 14px;
+      }
+      &:last-child {
+        button {
+          height: 30px;
+          border-radius: 5px;
+          margin: 13px 10px 0px 10px;
+          padding: 0 20px;
+          font-size: 14px;
+          font-weight: bold;
+          &:first-child{
+            margin-left: 0;
+          }
+        }
+      }
+    }
+  }
+}

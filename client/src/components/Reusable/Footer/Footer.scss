@@ -1,0 +1,17 @@
+.footer {
+  padding: 10px 37px;
+  position: fixed;
+  .logoutSection {
+    border-radius: 10px;
+    border: 1px solid #03071e;
+    padding: 17px 0;
+  }
+  .endCall {
+    width: 77px;
+    height: 52px;
+    border-radius: 10px;
+    svg {
+      transform: rotate(135deg);
+    }
+  }
+}

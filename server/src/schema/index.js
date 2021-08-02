@@ -2,6 +2,12 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
   scalar Date
+  interface UserType {
+    _id: ID!
+    email: String!
+    lastSeen: String
+  }
+
   type User {
     _id: ID!
     email: String!
@@ -19,6 +25,15 @@ const typeDefs = gql`
     updatedAt: String
   }
 
+  type Call {
+    _id: ID!
+    status: String!
+    senderId: ID!
+    receiverId: ID!
+    updatedAt: String!
+    createdAt: String!
+  }
+
   type LoginResponse {
     data: User!
     token: String!
@@ -34,6 +49,20 @@ const typeDefs = gql`
     meetingId: ID!
   }
 
+  type MakeCallResponse {
+    user: User!
+    call: Call!
+  }
+
+  type GetWhoIsCallingResponse {
+    _id: ID!
+    status: String!
+    senderId: User!
+    receiverId: ID!
+    updatedAt: String!
+    createdAt: String!
+  }
+
   type Query {
     getMeetings: [Meeting!]!
     getMeeting(id: ID!): Meeting!
@@ -46,11 +75,14 @@ const typeDefs = gql`
     deleteMeeting(id: ID!): DeleteMeetingResponse!
     startMeeting(id: ID!, passCode: String!): Meeting!
     updateLastSeen: User!
+    makeCall(receiverId: ID!): MakeCallResponse!
+    acceptCall(sender: ID!): Call!
   }
 
   type Subscription {
     getCreatedMeeting: Meeting!
     getOnlineUsers: [User!]!
+    getWhoIsCalling: GetWhoIsCallingResponse!
   }
 `;
 
