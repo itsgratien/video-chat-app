@@ -63,6 +63,10 @@ const typeDefs = gql`
     createdAt: String!
   }
 
+  type RejectCallResponse {
+    message: String!
+  }
+
   type Query {
     getMeetings: [Meeting!]!
     getMeeting(id: ID!): Meeting!
@@ -77,12 +81,14 @@ const typeDefs = gql`
     updateLastSeen: User!
     makeCall(receiverId: ID!): MakeCallResponse!
     acceptCall(sender: ID!): Call!
+    rejectCall(callId: ID!): RejectCallResponse!
   }
 
   type Subscription {
     getCreatedMeeting: Meeting!
     getOnlineUsers: [User!]!
     getWhoIsCalling: GetWhoIsCallingResponse!
+    getRejectedCall: Call!
   }
 `;
 

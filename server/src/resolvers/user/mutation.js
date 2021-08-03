@@ -1,8 +1,4 @@
-const {
-  ApolloError,
-  ValidationError,
-  UserInputError,
-} = require('apollo-server-express');
+const { ApolloError, ValidationError } = require('apollo-server-express');
 
 const { validate } = require('isemail');
 
@@ -43,37 +39,6 @@ class UserMutation {
       );
     }
   };
-  makeCall = async (_, args, context) => {
-    try {
-      const { receiverId } = args;
-
-      const { dataSources, user } = context;
-
-      const checkUser = await dataSources.userAPI.getProfile(receiverId);
-
-      if (!checkUser) {
-        return UserInputError('user you are calling could not be found');
-      }
-
-      const add = await dataSources.callAPI.makeCall(user._id, receiverId);
-
-      pubSub.publish(pubSubEvent.getRequestedCall, {
-        getWhoIsCalling: {
-          senderId: user._id,
-        },
-      });
-
-      return {
-        call: add,
-        user: checkUser,
-      };
-    } catch (error) {
-      throw new ApolloError(
-        'Unable to make a call due to internal server error'
-      );
-    }
-  };
-  acceptCall = async () => {};
 }
 
 exports.userMutation = new UserMutation();

@@ -18,16 +18,5 @@ module.exports = {
       return (payload.getOnlineUsers = find);
     },
     subscribe: () => pubSub.asyncIterator([pubSubEvent.getOnlineUsers]),
-  },
-  getWhoIsCalling: {
-    resolve: async (payload, args, context) => {
-      const getCall = await callAPI.getWhoIsCalling(
-        payload.getWhoIsCalling.senderId,
-        context.user._id
-      );
-
-      return (payload.getWhoIsCalling = getCall);
-    },
-    subscribe: () => pubSub.asyncIterator([pubSubEvent.getRequestedCall]),
-  },
+  }
 };

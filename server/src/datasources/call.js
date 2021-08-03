@@ -22,6 +22,22 @@ class CallDataSource {
 
     return find;
   };
+
+  updateCallStatus = async (callId, receiverId, status) => {
+    const change = await callModel.findOneAndUpdate(
+      { $and: [{ _id: callId }, { receiverId }] },
+      { $set: { status } },
+      { new: true }
+    );
+
+    return change;
+  };
+
+  getCall = async (options) => {
+    const find = await callModel.findOne(options);
+
+    return find;
+  };
 }
 
 module.exports = new CallDataSource();

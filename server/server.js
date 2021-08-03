@@ -19,7 +19,6 @@ const { database } = require('./src/config');
 const resolvers = require('./src/resolvers');
 
 const dataSources = require('./src/datasources');
-const { manageAuthorization } = require('./src/datasources/user');
 
 config();
 
@@ -48,6 +47,9 @@ config();
       );
 
       return manageAuth;
+    },
+    cors: {
+      origin: true,
     },
   });
 
